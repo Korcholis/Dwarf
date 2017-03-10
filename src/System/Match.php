@@ -113,14 +113,6 @@ class Match {
   }
 
   private function callFunction($action, $parameters) {
-    require(__DIR__ . "/../../vendor/php-di/InvokerInterface.php");
-    require(__DIR__ . "/../../vendor/php-di/ParameterResolver/ParameterResolver.php");
-    require(__DIR__ . "/../../vendor/php-di/ParameterResolver/ResolverChain.php");
-    require(__DIR__ . "/../../vendor/php-di/ParameterResolver/NumericArrayResolver.php");
-    require(__DIR__ . "/../../vendor/php-di/ParameterResolver/AssociativeArrayResolver.php");
-    require(__DIR__ . "/../../vendor/php-di/ParameterResolver/DefaultValueResolver.php");
-    require(__DIR__ . "/../../vendor/php-di/Reflection/CallableReflection.php");
-    require(__DIR__ . "/../../vendor/php-di/Invoker.php");
     $invoker = new \Invoker\Invoker;
 
     $invoker->call($action, $parameters);

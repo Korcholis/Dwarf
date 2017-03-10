@@ -2,7 +2,7 @@
 
 namespace Dwarf\System;
 
-class Brush extends Dwarf\Bases\DwarfPlugin {
+class Brush extends \Dwarf\Bases\DwarfPlugin {
 
   private $templateAliases = [];
   private $templatePath = null;
