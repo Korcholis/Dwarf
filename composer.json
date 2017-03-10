@@ -1,0 +1,23 @@
+{
+    "name": "korcholis/dwarf",
+    "description": "A tiny PHP framework with simplicity in mind.",
+    "type": "library",
+    "require": {
+        "php-di/invoker": "1.3"
+    },
+    "require-dev": {
+        "luchaninov/phpunit": "^5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergi Juanola",
+            "email": "korcholis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0" : {
+            "Korcholis\\Dwarf" : "src"
+        }
+    }
+}
