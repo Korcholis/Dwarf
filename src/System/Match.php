@@ -1,6 +1,6 @@
 <?php
 
-namespace dwarf\system;
+namespace Dwarf\System;
 
 class Match {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace dwarf\system;
+namespace Dwarf\System;
 
-class Brush extends \dwarf\bases\DwarfPlugin {
+class Brush extends Dwarf\Bases\DwarfPlugin {
 
   private $templateAliases = [];
   private $templatePath = null;

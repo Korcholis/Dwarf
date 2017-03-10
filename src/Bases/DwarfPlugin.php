@@ -1,6 +1,6 @@
 <?php
 
-namespace dwarf\bases;
+namespace Dwarf\Bases;
 
 class DwarfPlugin {
   private $dwarf = null;

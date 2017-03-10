@@ -1,5 +1,5 @@
 <?php
-namespace dwarf;
+namespace Dwarf;
 
 class Dwarf {
   private $paths = [];

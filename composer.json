@@ -16,8 +16,8 @@
         }
     ],
     "autoload": {
-        "psr-0" : {
-            "korcholis\\dwarf" : "src"
+        "psr-4" : {
+            "Dwarf\\" : "src/"
         }
     }
 }
