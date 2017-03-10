@@ -20,9 +20,9 @@ class Brush extends \Dwarf\Bases\DwarfPlugin {
     }
   }
 
-  public function render($template) {
+  public function render($template, $variables = []) {
     $templateFullPath = $this->guessTemplateFullPath($template);
-    $this->show($templateFullPath);
+    $this->show($templateFullPath, $variables);
   }
 
   private function guessTemplateFullPath($template) {
@@ -45,12 +45,15 @@ class Brush extends \Dwarf\Bases\DwarfPlugin {
     return $tempFullPath . ".php";
   }
 
-  private function show($templateFullPath) {
+  private function show($templateFullPath, $variables) {
+    foreach ($variables as $key => $value) {
+      $$key = $value;
+    }
     require $templateFullPath;
   }
 
-  public function include($template) {
+  public function include($template, $variables = []) {
     $templateFullPath = $this->guessTemplateFullPath($template);
-    $this->show($templateFullPath);
+    $this->show($templateFullPath, $variables);
   }
 }
