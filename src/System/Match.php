@@ -81,18 +81,18 @@ class Match {
   public function fire() {
     $possibleUri = $_SERVER['REQUEST_URI'];
     foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $possiblePath => $action) {
-      if (preg_match("@$possiblePath@", $possibleUri, $matches) === 1) {
+      if (preg_match("@^$possiblePath$@", $possibleUri, $matches) === 1) {
         $this->callFunction($action, $this->getParametersFor($matches));
         exit;
-      } elseif ($possibleUri[strlen($possibleUri - 1)] == "/") {
+      } elseif ($possibleUri[strlen($possibleUri) - 1] == "/") {
         $anotherPossibleUri = substr($possibleUri, 0, -1);
-        if (preg_match("@$possiblePath@", $anotherPossibleUri, $matches) === 1) {
+        if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
           $this->callFunction($action, $this->getParametersFor($matches));
           exit;
         }
       } else {
         $anotherPossibleUri = "$possibleUri/";
-        if (preg_match("@$possiblePath@", $anotherPossibleUri, $matches) === 1) {
+        if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
           $this->callFunction($action, $this->getParametersFor($matches));
           exit;
         }
