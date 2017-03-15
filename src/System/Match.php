@@ -70,24 +70,20 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
     $possibleUri = $possibleUri?? $_SERVER['REQUEST_URI'];
     foreach ($this->routes[$requestMethod] as $possiblePath => $action) {
       if (preg_match("@^$possiblePath$@", $possibleUri, $matches) === 1) {
-        $this->callFunction($action, $this->getParametersFor($matches));
-        exit;
+        return $this->callFunction($action, $this->getParametersFor($matches));
       } elseif ($possibleUri[strlen($possibleUri) - 1] == "/") {
         $anotherPossibleUri = substr($possibleUri, 0, -1);
         if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
-          $this->callFunction($action, $this->getParametersFor($matches));
-          exit;
+          return $this->callFunction($action, $this->getParametersFor($matches));
         }
       } else {
         $anotherPossibleUri = "$possibleUri/";
-        if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
-          $this->callFunction($action, $this->getParametersFor($matches));
-          exit;
+          if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
+          return $this->callFunction($action, $this->getParametersFor($matches));
         }
       }
     }
-    echo 'Error';
-    exit;
+    return 'Error';
   }
 
   private function getParametersFor($matches) {
@@ -103,6 +99,6 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
   private function callFunction($action, $parameters) {
     $invoker = new \Invoker\Invoker;
 
-    $invoker->call($action, $parameters);
+    return $invoker->call($action, $parameters);
   }
 }
