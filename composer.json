@@ -17,7 +17,8 @@
     ],
     "autoload": {
         "psr-4" : {
-            "Dwarf\\" : "src/"
+            "Dwarf\\" : "src/",
+            "Dwarf\\Test\\" : "test/"
         }
     }
 }
