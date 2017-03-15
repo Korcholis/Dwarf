@@ -7,8 +7,8 @@ class Brush extends \Dwarf\Bases\DwarfPlugin {
   private $templateAliases = [];
   private $templatePath = null;
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct(\Dwarf\Dwarf $dwarf) {
+    parent::__construct($dwarf);
     $this->templatePath = $this->getDwarf()->getTemplatePath();
   }
 

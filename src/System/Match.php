@@ -2,7 +2,7 @@
 
 namespace Dwarf\System;
 
-class Match {
+class Match extends \Dwarf\Bases\DwarfPlugin {
 
   private $routes = [
     'GET' => [],
@@ -10,19 +10,6 @@ class Match {
     'PUT' => [],
     'DELETE' => []
   ];
-
-  private static $__instance = null;
-
-  public static function instance() {
-    if (!isset(self::$__instance)) {
-      self::$__instance = new Match;
-    }
-    return self::$__instance;
-  }
-
-  private function __construct() {
-
-  }
 
   public function get($path, $action) {
     $this->saveRoute('GET', $path, $action);

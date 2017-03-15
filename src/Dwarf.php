@@ -4,21 +4,24 @@ namespace Dwarf;
 class Dwarf {
   private $paths = [];
 
-  private static $__instance = null;
+  public function getRootPath() {
+    return $this->paths['root'];
+  }
 
-  public static function instance() {
-    if (!isset(self::$__instance)) {
-      self::$__instance = new Dwarf;
+  public function getAppPath() {
+    return $this->paths['app'];
+  }
+
+  public function getTemplatePath() {
+    return $this->paths['templates'];
+  }
+
+  public function __construct($config = []) {
+    if (isset($config['rootPath'])) {
+      $this->paths['root'] = $config['rootPath'];
+    } else {
+      $this->paths['root'] = $this->guessRootPath();
     }
-    return self::$__instance;
-  }
-
-  public static function get() {
-    return self::instance();
-  }
-
-  private function __construct() {
-    $this->paths['root'] = $this->guessRootPath();
     $this->paths['app'] = $this->guessAppPath();
     $this->paths['templates'] = $this->guessTemplatePath();
   }
@@ -46,17 +49,5 @@ class Dwarf {
     } else {
       // FIXME
     }
-  }
-
-  public function getRootPath() {
-    return $this->paths['root'];
-  }
-
-  public function getAppPath() {
-    return $this->paths['app'];
-  }
-
-  public function getTemplatePath() {
-    return $this->paths['templates'];
   }
 }

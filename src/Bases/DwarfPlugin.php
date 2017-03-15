@@ -5,8 +5,8 @@ namespace Dwarf\Bases;
 class DwarfPlugin {
   private $dwarf = null;
 
-  public function __construct() {
-    $this->dwarf = \dwarf\Dwarf::instance();
+  public function __construct(\Dwarf\Dwarf $dwarf) {
+    $this->dwarf = $dwarf;
   }
 
   public function getDwarf() {
