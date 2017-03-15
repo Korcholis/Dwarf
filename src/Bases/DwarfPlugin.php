@@ -2,7 +2,7 @@
 
 namespace Dwarf\Bases;
 
-class DwarfPlugin {
+abstract class DwarfPlugin {
   private $dwarf = null;
 
   public function __construct(\Dwarf\Dwarf $dwarf) {

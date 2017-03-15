@@ -65,9 +65,10 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
     $this->routes[$verb][$path] = $action;
   }
 
-  public function fire() {
-    $possibleUri = $_SERVER['REQUEST_URI'];
-    foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $possiblePath => $action) {
+  public function fire($requestMethod = null, $possibleUri = null) {
+    $requestMethod = $requestMethod? strtoupper($requestMethod) : $_SERVER['REQUEST_METHOD'];
+    $possibleUri = $possibleUri?? $_SERVER['REQUEST_URI'];
+    foreach ($this->routes[$requestMethod] as $possiblePath => $action) {
       if (preg_match("@^$possiblePath$@", $possibleUri, $matches) === 1) {
         $this->callFunction($action, $this->getParametersFor($matches));
         exit;

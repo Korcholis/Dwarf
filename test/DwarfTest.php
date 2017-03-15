@@ -1,6 +1,4 @@
 <?php
-require(__DIR__ . '/../src/Dwarf.php');
-
 use Dwarf\Dwarf;
 
 final class DwarfTest extends PHPUnit\Framework\TestCase {
@@ -27,12 +25,13 @@ final class DwarfTest extends PHPUnit\Framework\TestCase {
       realpath(__DIR__),
       $this->dwarf->getRootPath()
     );
+
     $this->assertEquals(
       realpath(__DIR__ . DIRECTORY_SEPARATOR . 'app'),
       $this->dwarf->getAppPath()
     );
     $this->assertEquals(
-      realpath(__DIR__ . DIRECTORY_SEPARATOR . 'templates'),
+      realpath(__DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'templates'),
       $this->dwarf->getTemplatePath()
     );
   }

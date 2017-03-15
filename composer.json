@@ -6,7 +6,7 @@
         "php-di/invoker": "1.3"
     },
     "require-dev": {
-        "luchaninov/phpunit": "^5.3"
+      "phpunit/phpunit": "^6.0"
     },
     "license": "MIT",
     "authors": [
@@ -17,8 +17,7 @@
     ],
     "autoload": {
         "psr-4" : {
-            "Dwarf\\" : "src/",
-            "Dwarf\\Test\\" : "test/"
+            "Dwarf\\" : "src/"
         }
     }
 }
