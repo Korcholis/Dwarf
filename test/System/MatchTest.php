@@ -15,6 +15,10 @@ class MatchTest extends  PHPUnit\Framework\TestCase {
     $this->match = new Match($this->dwarf);
   }
 
+  public function testIfClassInheritsDwarfPlugin() {
+    $this->assertTrue(is_subclass_of($this->match, 'Dwarf\\Bases\\DwarfPlugin'));
+  }
+
   public function testPathsWithoutParameters() {
     $this->match->get('/', function() { return 1; });
     $this->match->post('/blog', function() { return 2; });
