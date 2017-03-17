@@ -46,6 +46,9 @@ class Brush extends \Dwarf\Base\DwarfPlugin {
   }
 
   private function show($templateFullPath, $variables) {
+    if (!file_exists($templateFullPath)) {
+      throw new \Dwarf\Exception\TemplateNotFoundException($templateFullPath);
+    }
     foreach ($variables as $key => $value) {
       $$key = $value;
     }
