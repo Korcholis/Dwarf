@@ -2,7 +2,7 @@
 
 namespace Dwarf\System;
 
-class Match extends \Dwarf\Bases\DwarfPlugin {
+class Match extends \Dwarf\Base\DwarfPlugin {
 
   private $routes = [
     'GET' => [],

@@ -1,6 +1,6 @@
 <?php
 use Dwarf\Dwarf;
-use Dwarf\Bases\DwarfPlugin;
+use Dwarf\Base\DwarfPlugin;
 
 final class DwarfPluginTest extends PHPUnit\Framework\TestCase {
 
