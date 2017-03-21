@@ -7,7 +7,7 @@ class MatchTest extends  PHPUnit\Framework\TestCase {
   private $dwarf = null;
   private $match = null;
   private $config = [
-    'rootPath' => __DIR__
+    'rootPath' => __DIR__ . "/.."
   ];
 
   public function setUp() {
@@ -16,7 +16,7 @@ class MatchTest extends  PHPUnit\Framework\TestCase {
   }
 
   public function testIfClassInheritsDwarfPlugin() {
-    $this->assertTrue(is_subclass_of($this->match, 'Dwarf\\Bases\\DwarfPlugin'));
+    $this->assertTrue(is_subclass_of($this->match, 'Dwarf\\Base\\DwarfPlugin'));
   }
 
   public function testPathsWithoutParameters() {

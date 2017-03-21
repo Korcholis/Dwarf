@@ -14,7 +14,7 @@ final class DwarfPluginTest extends PHPUnit\Framework\TestCase {
   public function setUp() {
     $this->dwarf = new Dwarf($this->config);
 
-    $this->class = $this->getMockForAbstractClass('Dwarf\Bases\DwarfPlugin', ['dwarf' => $this->dwarf]);
+    $this->class = $this->getMockForAbstractClass('Dwarf\Base\DwarfPlugin', ['dwarf' => $this->dwarf]);
   }
 
   public function testDwarfAssign() {
