@@ -39,6 +39,16 @@ class Match extends \Dwarf\Base\DwarfPlugin {
     return $this;
   }
 
+  public function goTo($path, $parameters = []) {
+    if (!empty($parameters)) {
+      $query = "?" . http_build_query($parameters);
+    } else {
+      $query = "";
+    }
+    header("Location: $path$query");
+    exit();
+  }
+
   private function saveRoute($verb, $path, $action) {
     $path = preg_replace_callback("@{(\w+)(:(\d*,?\d*))?(\?)?}(/)?@", function($match) {
       $block = "?<" . $match[1] . ">[^/]";
