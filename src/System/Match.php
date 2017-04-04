@@ -11,6 +11,8 @@ class Match extends \Dwarf\Base\DwarfPlugin {
     'DELETE' => []
   ];
 
+  private $currentSection = "";
+
   public function get($path, $action) {
     $this->saveRoute('GET', $path, $action);
     return $this;
@@ -50,6 +52,7 @@ class Match extends \Dwarf\Base\DwarfPlugin {
   }
 
   private function saveRoute($verb, $path, $action) {
+    $path = $this->currentSection . $path;
     $path = preg_replace_callback("@{(\w+)(:(\d*,?\d*))?(\?)?}(/)?@", function($match) {
       $block = "?<" . $match[1] . ">[^/]";
       if (!empty($match[3])) {
@@ -106,9 +109,24 @@ class Match extends \Dwarf\Base\DwarfPlugin {
     return $foundMatches;
   }
 
+  private function setSection($section) {
+    $this->currentSection = $section;
+  }
+
+  private function unsetSection() {
+    $this->currentSection = '';
+  }
+
   private function callFunction($action, $parameters) {
     $invoker = new \Invoker\Invoker;
 
     return $invoker->call($action, $parameters);
+  }
+
+  public function section($sectionPath, $callable) {
+    $this->setSection($sectionPath);
+    $callable($this);
+    $this->unsetSection();
+    return $this;
   }
 }

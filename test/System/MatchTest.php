@@ -43,4 +43,12 @@ class MatchTest extends  PHPUnit\Framework\TestCase {
     $this->assertEquals('prefilledprefilled', $this->match->fire('get', '/test3/prefilled/prefilled'));
     $this->assertEquals('prefilledempty', $this->match->fire('get', '/test3/prefilled'));
   }
+
+  public function testSubpaths() {
+    $this->match->section('/subpath', function($match) {
+      $match->get('/subsubpath', function() { return 'subsubpath reached'; });
+    });
+
+    $this->assertEquals('subsubpath reached', $this->match->fire('get', '/subpath/subsubpath'));
+  }
 }
