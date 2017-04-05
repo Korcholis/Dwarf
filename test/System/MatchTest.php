@@ -45,10 +45,15 @@ class MatchTest extends  PHPUnit\Framework\TestCase {
   }
 
   public function testSubpaths() {
-    $this->match->section('/subpath', function($match) {
-      $match->get('/subsubpath', function() { return 'subsubpath reached'; });
+    $this->match->section('/section', function($match) {
+      $match
+        ->get('/endpath', function() { return 'end path reached'; })
+        ->section('/subsection', function($match) {
+          $match->get('/subendpath', function() { return 'sub end path reached'; });
+        });
     });
 
-    $this->assertEquals('subsubpath reached', $this->match->fire('get', '/subpath/subsubpath'));
+    $this->assertEquals('end path reached', $this->match->fire('get', '/section/endpath'));
+    $this->assertEquals('sub end path reached', $this->match->fire('get', '/section/subsection/subendpath'));
   }
 }
