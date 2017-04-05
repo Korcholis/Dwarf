@@ -6,8 +6,9 @@ class Request {
   private $rawServerData = null;
   private $parameters = null;
   private $method = null;
+  private $session = null;
 
-  public function __construct($serverData = null, $parameters = null) {
+  public function __construct($serverData = null, $parameters = null, $sessionData = null) {
     if (isset($serverData)) {
       $this->rawServerData = $serverData;
     } else {
@@ -33,6 +34,8 @@ class Request {
           break;
       }
     }
+
+    $this->session = new Session($sessionData);
   }
 
   private function prepareServerData() {
@@ -49,5 +52,9 @@ class Request {
 
   public function param($key, $default = null) {
     return isset($this->parameters[$key])? $this->parameters[$key] : $default;
+  }
+
+  public function getSession() {
+    return $this->session;
   }
 }

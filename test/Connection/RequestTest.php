@@ -5,7 +5,7 @@ final class RequestTest extends PHPUnit\Framework\TestCase {
   private $request;
 
   public function setUp() {
-    $this->request = new Request(['REQUEST_METHOD' => 'POST']);
+    $this->request = new Request(['REQUEST_METHOD' => 'POST'], [], []);
   }
 
   public function testMethod() {
