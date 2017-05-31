@@ -2,7 +2,7 @@
 
 namespace Dwarf\System;
 
-class Brush extends \Dwarf\Bases\DwarfPlugin {
+class Brush extends \Dwarf\Base\DwarfPlugin {
 
   private $templateAliases = [];
   private $templatePath = null;
@@ -46,6 +46,9 @@ class Brush extends \Dwarf\Bases\DwarfPlugin {
   }
 
   private function show($templateFullPath, $variables) {
+    if (!file_exists($templateFullPath)) {
+      throw new \Dwarf\Exception\TemplateNotFoundException($templateFullPath);
+    }
     foreach ($variables as $key => $value) {
       $$key = $value;
     }

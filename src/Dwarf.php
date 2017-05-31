@@ -51,3 +51,9 @@ class Dwarf {
     }
   }
 }
+
+set_exception_handler(function($ex) {
+  $classname = explode("\\", get_class($ex));
+  $classname = array_pop($classname);
+  echo "<h1>" . $classname . "</h1><p>" . $ex->getMessage() . "</p>";
+});

@@ -2,7 +2,7 @@
 
 namespace Dwarf\System;
 
-class Match extends \Dwarf\Bases\DwarfPlugin {
+class Match extends \Dwarf\Base\DwarfPlugin {
 
   private $routes = [
     'GET' => [],
@@ -10,6 +10,8 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
     'PUT' => [],
     'DELETE' => []
   ];
+
+  private $currentSection = [];
 
   public function get($path, $action) {
     $this->saveRoute('GET', $path, $action);
@@ -39,7 +41,18 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
     return $this;
   }
 
+  public function goTo($path, $parameters = []) {
+    if (!empty($parameters)) {
+      $query = "?" . http_build_query($parameters);
+    } else {
+      $query = "";
+    }
+    header("Location: $path$query");
+    exit();
+  }
+
   private function saveRoute($verb, $path, $action) {
+    $path = $this->getSection() . $path;
     $path = preg_replace_callback("@{(\w+)(:(\d*,?\d*))?(\?)?}(/)?@", function($match) {
       $block = "?<" . $match[1] . ">[^/]";
       if (!empty($match[3])) {
@@ -67,27 +80,23 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
 
   public function fire($requestMethod = null, $possibleUri = null) {
     $requestMethod = $requestMethod? strtoupper($requestMethod) : $_SERVER['REQUEST_METHOD'];
-    $possibleUri = $possibleUri?? $_SERVER['REQUEST_URI'];
+    $possibleUri = $possibleUri?? strtok($_SERVER['REQUEST_URI'], "?");
     foreach ($this->routes[$requestMethod] as $possiblePath => $action) {
       if (preg_match("@^$possiblePath$@", $possibleUri, $matches) === 1) {
-        $this->callFunction($action, $this->getParametersFor($matches));
-        exit;
+        return $this->callFunction($action, $this->getParametersFor($matches));
       } elseif ($possibleUri[strlen($possibleUri) - 1] == "/") {
         $anotherPossibleUri = substr($possibleUri, 0, -1);
         if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
-          $this->callFunction($action, $this->getParametersFor($matches));
-          exit;
+          return $this->callFunction($action, $this->getParametersFor($matches));
         }
       } else {
         $anotherPossibleUri = "$possibleUri/";
-        if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
-          $this->callFunction($action, $this->getParametersFor($matches));
-          exit;
+          if (preg_match("@^$possiblePath$@", $anotherPossibleUri, $matches) === 1) {
+          return $this->callFunction($action, $this->getParametersFor($matches));
         }
       }
     }
-    echo 'Error';
-    exit;
+    return 'Error';
   }
 
   private function getParametersFor($matches) {
@@ -100,9 +109,31 @@ class Match extends \Dwarf\Bases\DwarfPlugin {
     return $foundMatches;
   }
 
+  private function setSection($section) {
+    $this->currentSection[] = $section;
+  }
+
+  private function unsetSection() {
+    array_pop($this->currentSection);
+  }
+
+  private function getSection() {
+    if (!empty($this->currentSection)) {
+      return implode('', $this->currentSection);
+    }
+    return "";
+  }
+
   private function callFunction($action, $parameters) {
     $invoker = new \Invoker\Invoker;
 
-    $invoker->call($action, $parameters);
+    return $invoker->call($action, $parameters);
+  }
+
+  public function section($sectionPath, $callable) {
+    $this->setSection($sectionPath);
+    $callable($this);
+    $this->unsetSection();
+    return $this;
   }
 }
