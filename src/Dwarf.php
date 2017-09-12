@@ -3,6 +3,7 @@ namespace Dwarf;
 
 class Dwarf {
   private $paths = [];
+  private $versionManager = null;
 
   public function getRootPath() {
     return $this->paths['root'];
@@ -24,6 +25,13 @@ class Dwarf {
     }
     $this->paths['app'] = $this->guessAppPath();
     $this->paths['templates'] = $this->guessTemplatePath();
+
+    $this->versionManager = new \Dwarf\System\VersionManager($this);
+    if (isset($config['versions'])) {
+      foreach ($config['versions'] as $version_metadata) {
+        $this->versionManager->addVersion($version_metadata['code'], $version_metadata['strong_code'], new \DateTime($version_metadata['release_date']), $version_metadata['grace_period']);
+      }
+    }
   }
 
   private function guessRootPath() {
