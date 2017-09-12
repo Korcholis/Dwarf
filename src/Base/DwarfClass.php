@@ -5,7 +5,7 @@ namespace Dwarf\Base;
 abstract class DwarfClass {
   protected static $dwarf = null;
 
-  public function bind(\Dwarf\Dwarf $dwarf) {
+  public static function bind(\Dwarf\Dwarf $dwarf) {
     static::$dwarf = $dwarf;
   }
 
