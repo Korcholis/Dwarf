@@ -7,7 +7,7 @@ class VersionManager extends \Dwarf\Base\DwarfPlugin {
 
   public function __construct(\Dwarf\Dwarf $dwarf) {
     super::__construct($dwarf);
-    \Dwarf\Class\Version::bind($dwarf);
+    \Dwarf\Model\Version::bind($dwarf);
   }
 
   public function addVersion($code, $strongCode, $releaseDate, $gracePeriod) {
@@ -17,7 +17,7 @@ class VersionManager extends \Dwarf\Base\DwarfPlugin {
       $this->versions[0]->setObsolescenceDate(date_add($releaseDate, $this->versions[0]->getGracePeriod()));
     }
 
-    $version = new \Dwarf\Class\Version($code, $strongCode, $releaseDate, $gracePeriod);
+    $version = new \Dwarf\Model\Version($code, $strongCode, $releaseDate, $gracePeriod);
     $version->setLatest(true);
 
     array_unshift($this->versions, $version);

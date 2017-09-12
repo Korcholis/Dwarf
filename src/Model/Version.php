@@ -1,6 +1,6 @@
 <?php
 
-namespace Dwarf\Class;
+namespace Dwarf\Model;
 
 class Version extends \Dwarf\Base\DwarfClass {
   /**
