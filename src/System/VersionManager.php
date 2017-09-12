@@ -6,7 +6,7 @@ class VersionManager extends \Dwarf\Base\DwarfPlugin {
   private $versions = [];
 
   public function __construct(\Dwarf\Dwarf $dwarf) {
-    super::__construct($dwarf);
+    parent::__construct($dwarf);
     \Dwarf\Model\Version::bind($dwarf);
   }
 
@@ -14,12 +14,16 @@ class VersionManager extends \Dwarf\Base\DwarfPlugin {
     if (!empty($this->versions)) {
       $this->versions[0]->setLatest(false);
       $this->versions[0]->setDeprecationDate($releaseDate);
-      $this->versions[0]->setObsolescenceDate(date_add($releaseDate, $this->versions[0]->getGracePeriod()));
+      $this->versions[0]->buildObsolescenceDate($releaseDate, $this->versions[0]->getGracePeriod());
     }
 
     $version = new \Dwarf\Model\Version($code, $strongCode, $releaseDate, $gracePeriod);
     $version->setLatest(true);
 
     array_unshift($this->versions, $version);
+  }
+
+  public function getVersions() {
+    return $this->versions;
   }
 }

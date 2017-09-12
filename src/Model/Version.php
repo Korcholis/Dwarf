@@ -34,7 +34,7 @@ class Version extends \Dwarf\Base\DwarfClass {
   /**
    * Amount of time a Version is considered to be deprecated
    * but maintained. Its format is that of a \DateInterval. It
-   * defaults to +1 year
+   * defaults to 1Y
    * @var \DateInterval
    */
   private $gracePeriod;
@@ -53,13 +53,37 @@ class Version extends \Dwarf\Base\DwarfClass {
    */
   private $latest;
 
-  public function __construct($code, $strongCode, $releaseDate, $gracePeriod = "+1 year", $deprecationDate = null, $obsolescenceDate = null, $latest = false) {
+  public function __construct($code, $strongCode, $releaseDate, $gracePeriod = "1Y", $deprecationDate = null, $obsolescenceDate = null, $latest = false) {
     $this->code = $code;
     $this->strongCode = $strongCode;
-    $this->releaseDate = $releaseDate;
-    $this->gracePeriod = $gracePeriod;
-    $this->deprecationDate = $deprecationDate;
-    $this->obsolescenceDate = $obsolescenceDate;
+    if (is_string($releaseDate)) {
+      $releaseDate = new \DateTime($releaseDate);  
+      $this->releaseDate = $releaseDate;
+    } elseif(get_class($releaseDate) == 'DateTime') {
+      $this->releaseDate = clone $releaseDate;
+    }
+    if (is_string($gracePeriod)) {
+      $gracePeriod = new \DateInterval("P$gracePeriod");
+      $this->gracePeriod = $gracePeriod;
+    } elseif(get_class($gracePeriod) == 'DateInterval') {
+      $this->gracePeriod = clone $gracePeriod;
+    }
+    if (isset($deprecationDate)) {
+      if (is_string($deprecationDate)) {
+        $deprecationDate = new \DateTime($deprecationDate);  
+        $this->deprecationDate = $deprecationDate;
+      } elseif(get_class($deprecationDate) == 'DateTime') {
+        $this->deprecationDate = clone $deprecationDate;
+      }
+    }
+    if (isset($obsolescenceDate)) {
+      if (is_string($obsolescenceDate)) {
+        $obsolescenceDate = new \DateTime($obsolescenceDate);  
+        $this->obsolescenceDate = $obsolescenceDate;
+      } elseif(get_class($obsolescenceDate) == 'DateTime') {
+        $this->obsolescenceDate = clone $obsolescenceDate;
+      }
+    }
     $this->latest = $latest;
   }
 
@@ -169,6 +193,11 @@ class Version extends \Dwarf\Base\DwarfClass {
       $this->obsolescenceDate = $obsolescenceDate;
 
       return $this;
+  }
+
+  public function buildObsolescenceDate(\DateTime $deprecationDate, \DateInterval $gracePeriod) {
+    $this->obsolescenceDate = clone $deprecationDate;
+    $this->obsolescenceDate->add($gracePeriod);
   }
 
   /**

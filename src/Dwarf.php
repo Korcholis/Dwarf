@@ -58,6 +58,10 @@ class Dwarf {
       // FIXME
     }
   }
+
+  public function getVersionManager() {
+    return $this->versionManager;
+  }
 }
 
 set_exception_handler(function($ex) {
