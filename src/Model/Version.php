@@ -54,44 +54,20 @@ class Version extends \Dwarf\Base\DwarfClass {
   private $latest;
 
   public function __construct($code, $strongCode, $releaseDate, $gracePeriod = "1Y", $deprecationDate = null, $obsolescenceDate = null, $latest = false) {
-    $this->code = $code;
-    $this->strongCode = $strongCode;
-    if (is_string($releaseDate)) {
-      $releaseDate = new \DateTime($releaseDate);  
-      $this->releaseDate = $releaseDate;
-    } elseif(get_class($releaseDate) == 'DateTime') {
-      $this->releaseDate = clone $releaseDate;
-    }
-    if (is_string($gracePeriod)) {
-      $gracePeriod = new \DateInterval("P$gracePeriod");
-      $this->gracePeriod = $gracePeriod;
-    } elseif(get_class($gracePeriod) == 'DateInterval') {
-      $this->gracePeriod = clone $gracePeriod;
-    }
-    if (isset($deprecationDate)) {
-      if (is_string($deprecationDate)) {
-        $deprecationDate = new \DateTime($deprecationDate);  
-        $this->deprecationDate = $deprecationDate;
-      } elseif(get_class($deprecationDate) == 'DateTime') {
-        $this->deprecationDate = clone $deprecationDate;
-      }
-    }
-    if (isset($obsolescenceDate)) {
-      if (is_string($obsolescenceDate)) {
-        $obsolescenceDate = new \DateTime($obsolescenceDate);  
-        $this->obsolescenceDate = $obsolescenceDate;
-      } elseif(get_class($obsolescenceDate) == 'DateTime') {
-        $this->obsolescenceDate = clone $obsolescenceDate;
-      }
-    }
-    $this->latest = $latest;
+    $this->setCode($code)
+         ->setStrongCode($strongCode)
+         ->setReleaseDate($releaseDate)
+         ->setGracePeriod($gracePeriod)
+         ->setDeprecationDate($deprecationDate)
+         ->setObsolescenceDate($obsolescenceDate)
+         ->setLatest($latest);
   }
 
   /**
    * @return string
    */
   public function getCode() {
-      return $this->code;
+    return $this->code;
   }
 
   /**
@@ -100,16 +76,16 @@ class Version extends \Dwarf\Base\DwarfClass {
    * @return self
    */
   public function setCode($code) {
-      $this->code = $code;
+    $this->code = $code;
 
-      return $this;
+    return $this;
   }
 
   /**
    * @return string
    */
   public function getStrongCode() {
-      return $this->strongCode;
+    return $this->strongCode;
   }
 
   /**
@@ -118,16 +94,16 @@ class Version extends \Dwarf\Base\DwarfClass {
    * @return self
    */
   public function setStrongCode($strongCode) {
-      $this->strongCode = $strongCode;
+    $this->strongCode = $strongCode;
 
-      return $this;
+    return $this;
   }
 
   /**
    * @return \DateTime
    */
   public function getReleaseDate() {
-      return $this->releaseDate;
+    return $this->releaseDate;
   }
 
   /**
@@ -135,17 +111,22 @@ class Version extends \Dwarf\Base\DwarfClass {
    *
    * @return self
    */
-  public function setReleaseDate(\DateTime $releaseDate) {
+  public function setReleaseDate($releaseDate) {
+    if (is_string($releaseDate)) {
+      $releaseDate = new \DateTime($releaseDate);  
       $this->releaseDate = $releaseDate;
+    } elseif(get_class($releaseDate) == 'DateTime') {
+      $this->releaseDate = clone $releaseDate;
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
    * @return \DateTime
    */
   public function getDeprecationDate() {
-      return $this->deprecationDate;
+    return $this->deprecationDate;
   }
 
   /**
@@ -153,17 +134,24 @@ class Version extends \Dwarf\Base\DwarfClass {
    *
    * @return self
    */
-  public function setDeprecationDate(\DateTime $deprecationDate) {
-      $this->deprecationDate = $deprecationDate;
+  public function setDeprecationDate($deprecationDate) {
+    if (isset($deprecationDate)) {
+      if (is_string($deprecationDate)) {
+        $deprecationDate = new \DateTime($deprecationDate);  
+        $this->deprecationDate = $deprecationDate;
+      } elseif(get_class($deprecationDate) == 'DateTime') {
+        $this->deprecationDate = clone $deprecationDate;
+      }
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
    * @return \DateInterval
    */
   public function getGracePeriod() {
-      return $this->gracePeriod;
+    return $this->gracePeriod;
   }
 
   /**
@@ -171,17 +159,22 @@ class Version extends \Dwarf\Base\DwarfClass {
    *
    * @return self
    */
-  public function setGracePeriod(\DateInterval $gracePeriod) {
+  public function setGracePeriod($gracePeriod) {
+    if (is_string($gracePeriod)) {
+      $gracePeriod = new \DateInterval("P$gracePeriod");
       $this->gracePeriod = $gracePeriod;
+    } elseif(get_class($gracePeriod) == 'DateInterval') {
+      $this->gracePeriod = clone $gracePeriod;
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
    * @return \DateTime
    */
   public function getObsolescenceDate() {
-      return $this->obsolescenceDate;
+    return $this->obsolescenceDate;
   }
 
   /**
@@ -189,10 +182,17 @@ class Version extends \Dwarf\Base\DwarfClass {
    *
    * @return self
    */
-  public function setObsolescenceDate(\DateTime $obsolescenceDate) {
-      $this->obsolescenceDate = $obsolescenceDate;
+  public function setObsolescenceDate($obsolescenceDate) {
+    if (isset($obsolescenceDate)) {
+      if (is_string($obsolescenceDate)) {
+        $obsolescenceDate = new \DateTime($obsolescenceDate);  
+        $this->obsolescenceDate = $obsolescenceDate;
+      } elseif(get_class($obsolescenceDate) == 'DateTime') {
+        $this->obsolescenceDate = clone $obsolescenceDate;
+      }
+    }
 
-      return $this;
+    return $this;
   }
 
   public function buildObsolescenceDate(\DateTime $deprecationDate, \DateInterval $gracePeriod) {
@@ -204,7 +204,7 @@ class Version extends \Dwarf\Base\DwarfClass {
    * @return boolean
    */
   public function isLatest() {
-      return $this->latest;
+    return $this->latest;
   }
 
   /**
@@ -213,8 +213,8 @@ class Version extends \Dwarf\Base\DwarfClass {
    * @return self
    */
   public function setLatest($latest) {
-      $this->latest = $latest;
+    $this->latest = $latest;
 
-      return $this;
+    return $this;
   }
 }
