@@ -217,4 +217,34 @@ class Version extends \Dwarf\Base\DwarfClass {
 
     return $this;
   }
+
+  public function isCurrent($when = 'now') {
+    return !$this->isDeprecated($when);
+  }
+
+  public function isDeprecated($when = 'now') {
+    if ($this->deprecationDate == null) {
+      return false;
+    }
+    if (is_string($when)) {
+      $when = new \DateTime($when);
+    } elseif(get_class($when) !== 'DateTime') {
+      // FIXME
+      return false;
+    }
+    return $when >= $this->deprecationDate;
+  }
+
+  public function isObsolete($when = 'now') {
+    if ($this->obsolescenceDate == null) {
+      return false;
+    }
+    if (is_string($when)) {
+      $when = new \DateTime($when);
+    } elseif(get_class($when) !== 'DateTime') {
+      // FIXME
+      return false;
+    }
+    return $when >= $this->obsolescenceDate;
+  }
 }
