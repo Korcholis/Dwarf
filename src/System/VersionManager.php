@@ -26,4 +26,31 @@ class VersionManager extends \Dwarf\Base\DwarfPlugin {
   public function getVersions() {
     return $this->versions;
   }
+
+  public function getLatestVersion() {
+    for ($i=0; $i < count($this->versions); $i++) { 
+      if ($this->versions[$i]->isLatest()) {
+        return $this->versions[$i];
+      }
+    }
+
+    return false;
+  }
+
+  public function getVersionByCode($code) {
+    for ($i=0; $i < count($this->versions); $i++) { 
+      if ($this->versions[$i]->getCode() == $code) {
+        return $this->versions[$i];
+      }
+    }
+
+    return false;
+  }
+
+  public function isVersionAvailable($code) {
+    if ($this->getVersionByCode($code) === false) {
+      return false;
+    }
+    return true;
+  }
 }
